@@ -6,7 +6,7 @@ public class TestUserBuilder {
         return User.builder()
                 .firstName("Test First Name")
                 .lastName("Test Last Name")
-                .email("Test Email")
+                .email("test@email.com")
                 .build();
     }
 }

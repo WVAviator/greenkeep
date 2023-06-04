@@ -9,10 +9,11 @@ public class TestLawnBuilder {
         return Lawn.builder()
                 .name("My Lawn")
                 .city("My City")
-                .state("My State")
+                .state(State.MS)
                 .size(1000)
                 .user(new TestUserBuilder().build())
                 .grassType(GrassType.BERMUDAGRASS)
+                .hardinessZone(USDAHardinessZone.ZONE_7B)
                 .build();
     }
 
@@ -20,10 +21,11 @@ public class TestLawnBuilder {
         return Lawn.builder()
                 .name("My Lawn")
                 .city("My City")
-                .state("My State")
+                .state(State.MS)
                 .size(1000)
                 .user(user)
                 .grassType(GrassType.BERMUDAGRASS)
+                .hardinessZone(USDAHardinessZone.ZONE_7B)
                 .build();
     }
 }

@@ -5,6 +5,7 @@ import com.wvaviator.greenkeep.equipment.EquipmentRepository;
 import com.wvaviator.greenkeep.equipment.EquipmentType;
 import com.wvaviator.greenkeep.lawn.Lawn;
 import com.wvaviator.greenkeep.lawn.LawnRepository;
+import com.wvaviator.greenkeep.lawn.State;
 import com.wvaviator.greenkeep.maintenance.MaintenanceRepository;
 import com.wvaviator.greenkeep.treatment.TreatmentRepository;
 import com.wvaviator.greenkeep.user.User;
@@ -46,10 +47,10 @@ public class LoadDatabase {
 
             logger.info("Initial equipment created.");
 
-            Lawn lawn1 = Lawn.builder().id(1L).city("Hernando").state("MS").name("Front Yard")
+            Lawn lawn1 = Lawn.builder().id(1L).city("Hernando").state(State.MS).name("Front Yard")
                     .description("The front yard of my house.").problems("There is poa annua and nutsedge.").size(2000)
                     .hasSprinklerSystem(false).user(user1).build();
-            Lawn lawn2 = Lawn.builder().id(2L).city("Hernando").state("MS").name("Back Yard")
+            Lawn lawn2 = Lawn.builder().id(2L).city("Hernando").state(State.MS).name("Back Yard")
                     .description("The back yard of my house.").problems("There is crabgrass and patches of dirt.")
                     .size(2000)
                     .hasSprinklerSystem(false).user(user1).build();
