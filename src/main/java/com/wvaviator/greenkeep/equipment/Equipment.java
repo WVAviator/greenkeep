@@ -1,7 +1,7 @@
-package com.wvaviator.greenkeep.entities.equipment;
+package com.wvaviator.greenkeep.equipment;
 
-import com.wvaviator.greenkeep.entities.maintenance.Maintenance;
-import com.wvaviator.greenkeep.entities.user.User;
+import com.wvaviator.greenkeep.maintenance.Maintenance;
+import com.wvaviator.greenkeep.user.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

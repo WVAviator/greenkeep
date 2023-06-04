@@ -1,4 +1,4 @@
-package com.wvaviator.greenkeep.entities.lawn;
+package com.wvaviator.greenkeep.lawn;
 
 public enum USDAHardinessZone {
     ZONE_1A,

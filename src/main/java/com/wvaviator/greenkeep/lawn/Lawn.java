@@ -1,8 +1,8 @@
-package com.wvaviator.greenkeep.entities.lawn;
+package com.wvaviator.greenkeep.lawn;
 
-import com.wvaviator.greenkeep.entities.application.Application;
-import com.wvaviator.greenkeep.entities.maintenance.Maintenance;
-import com.wvaviator.greenkeep.entities.user.User;
+import com.wvaviator.greenkeep.treatment.Treatment;
+import com.wvaviator.greenkeep.maintenance.Maintenance;
+import com.wvaviator.greenkeep.user.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -48,7 +48,7 @@ public class Lawn {
     private List<Maintenance> maintenance;
 
     @OneToMany(mappedBy = "lawn", cascade = CascadeType.ALL)
-    private List<Application> applications;
+    private List<Treatment> treatments;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

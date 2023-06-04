@@ -1,4 +1,4 @@
-package com.wvaviator.greenkeep.entities.maintenance;
+package com.wvaviator.greenkeep.maintenance;
 
 public enum MaintenanceType {
     MOWING,

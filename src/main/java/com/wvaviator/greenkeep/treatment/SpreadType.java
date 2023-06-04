@@ -1,4 +1,4 @@
-package com.wvaviator.greenkeep.entities.application;
+package com.wvaviator.greenkeep.treatment;
 
 public enum SpreadType {
     BROADCAST,

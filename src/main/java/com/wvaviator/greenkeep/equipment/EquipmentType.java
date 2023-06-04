@@ -1,4 +1,4 @@
-package com.wvaviator.greenkeep.entities.equipment;
+package com.wvaviator.greenkeep.equipment;
 
 public enum EquipmentType {
     MOWER,

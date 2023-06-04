@@ -1,19 +1,19 @@
-package com.wvaviator.greenkeep.entities.application;
+package com.wvaviator.greenkeep.treatment;
 
-import com.wvaviator.greenkeep.entities.lawn.Lawn;
+import com.wvaviator.greenkeep.lawn.Lawn;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Application {
+public class Treatment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ApplicationType type;
+    private TreatmentType type;
 
     @Enumerated(EnumType.STRING)
     private SpreadType spreadType;

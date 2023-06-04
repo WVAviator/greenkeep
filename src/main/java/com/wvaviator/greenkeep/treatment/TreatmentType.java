@@ -1,6 +1,6 @@
-package com.wvaviator.greenkeep.entities.application;
+package com.wvaviator.greenkeep.treatment;
 
-public enum ApplicationType {
+public enum TreatmentType {
     FERTILIZER,
     LIME,
     HERBICIDE,
