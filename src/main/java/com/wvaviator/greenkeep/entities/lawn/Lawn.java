@@ -1,4 +1,4 @@
-package com.wvaviator.greenkeep.entities;
+package com.wvaviator.greenkeep.entities.lawn;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -192,5 +192,23 @@ public class Lawn {
         result = 31 * result + (getCreatedAt() != null ? getCreatedAt().hashCode() : 0);
         result = 31 * result + (getUpdatedAt() != null ? getUpdatedAt().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Lawn{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", hardinessZone=" + hardinessZone +
+                ", grassType=" + grassType +
+                ", size=" + size +
+                ", hasSprinklerSystem=" + hasSprinklerSystem +
+                ", description='" + description + '\'' +
+                ", problems='" + problems + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }

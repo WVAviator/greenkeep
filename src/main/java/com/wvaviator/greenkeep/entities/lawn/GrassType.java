@@ -1,4 +1,4 @@
-package com.wvaviator.greenkeep.entities;
+package com.wvaviator.greenkeep.entities.lawn;
 
 public enum GrassType {
     KENTUCKY_BLUEGRASS,
