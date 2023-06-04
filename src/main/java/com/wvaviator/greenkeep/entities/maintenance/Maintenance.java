@@ -1,4 +1,4 @@
-package com.wvaviator.greenkeep.entities.Maintenance;
+package com.wvaviator.greenkeep.entities.maintenance;
 
 import com.wvaviator.greenkeep.entities.equipment.Equipment;
 import com.wvaviator.greenkeep.entities.lawn.Lawn;
