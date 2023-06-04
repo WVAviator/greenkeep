@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
+@Table(name = "gk_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
