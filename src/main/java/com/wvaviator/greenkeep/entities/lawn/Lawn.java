@@ -1,10 +1,12 @@
 package com.wvaviator.greenkeep.entities.lawn;
 
+import com.wvaviator.greenkeep.entities.Maintenance.Maintenance;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Lawn {
@@ -35,6 +37,9 @@ public class Lawn {
 
     @Column(length = 1000, columnDefinition = "text")
     private String problems;
+
+    @OneToMany(mappedBy = "lawn", cascade = CascadeType.ALL)
+    private List<Maintenance> maintenance;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

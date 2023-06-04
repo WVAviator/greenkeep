@@ -1,8 +1,12 @@
 package com.wvaviator.greenkeep.entities.equipment;
 
+import com.wvaviator.greenkeep.entities.Maintenance.Maintenance;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Equipment {
@@ -23,6 +27,15 @@ public class Equipment {
     private String serialNumber = "0000";
 
     private String image = "https://via.placeholder.com/150";
+
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
+    private List<Maintenance> maintenance;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     public Equipment() {
     }
