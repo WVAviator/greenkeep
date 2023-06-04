@@ -1,6 +1,7 @@
 package com.wvaviator.greenkeep.entities.equipment;
 
 import com.wvaviator.greenkeep.entities.maintenance.Maintenance;
+import com.wvaviator.greenkeep.entities.user.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,6 +28,10 @@ public class Equipment {
     private String serialNumber = "0000";
 
     private String image = "https://via.placeholder.com/150";
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
     private List<Maintenance> maintenance;

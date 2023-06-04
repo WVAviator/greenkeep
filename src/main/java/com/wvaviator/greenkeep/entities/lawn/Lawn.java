@@ -2,6 +2,7 @@ package com.wvaviator.greenkeep.entities.lawn;
 
 import com.wvaviator.greenkeep.entities.application.Application;
 import com.wvaviator.greenkeep.entities.maintenance.Maintenance;
+import com.wvaviator.greenkeep.entities.user.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -38,6 +39,10 @@ public class Lawn {
 
     @Column(length = 1000, columnDefinition = "text")
     private String problems;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "lawn", cascade = CascadeType.ALL)
     private List<Maintenance> maintenance;
