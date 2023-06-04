@@ -1,6 +1,6 @@
 package com.wvaviator.greenkeep.lawn;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LawnRepository extends CrudRepository<Lawn, Long> {
+public interface LawnRepository extends JpaRepository<Lawn, Long> {
 }

@@ -1,6 +1,6 @@
 package com.wvaviator.greenkeep.treatment;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TreatmentRepository extends CrudRepository<Treatment, Long> {
+public interface TreatmentRepository extends JpaRepository<Treatment, Long> {
 }
