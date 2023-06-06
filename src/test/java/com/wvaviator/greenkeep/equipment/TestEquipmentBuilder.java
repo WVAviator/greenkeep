@@ -11,6 +11,7 @@ public class TestEquipmentBuilder {
                 .brand("Test Brand")
                 .model("Test Model")
                 .serialNumber("Test Serial Number")
+                .type(EquipmentType.MOWER)
                 .user(new TestUserBuilder().build())
                 .build();
     }
@@ -20,6 +21,7 @@ public class TestEquipmentBuilder {
                 .brand("Test Brand")
                 .model("Test Model")
                 .serialNumber("Test Serial Number")
+                .type(EquipmentType.MOWER)
                 .user(user)
                 .build();
     }
