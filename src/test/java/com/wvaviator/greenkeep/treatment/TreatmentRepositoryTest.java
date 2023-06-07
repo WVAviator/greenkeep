@@ -6,13 +6,13 @@ import com.wvaviator.greenkeep.lawn.TestLawnBuilder;
 import com.wvaviator.greenkeep.user.TestUserBuilder;
 import com.wvaviator.greenkeep.user.User;
 import com.wvaviator.greenkeep.user.UserRepository;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 class TreatmentRepositoryTest {
@@ -34,8 +34,6 @@ class TreatmentRepositoryTest {
                 .lawn(testLawn)
                 .type(TreatmentType.FERTILIZER)
                 .spreadType(SpreadType.BROADCAST)
-                .scheduled(true)
-                .scheduledAt(LocalDateTime.now())
                 .build();
 
         User savedUser = userRepository.save(testUser);
@@ -48,6 +46,149 @@ class TreatmentRepositoryTest {
         assertNotNull(savedTreatment.getId());
         assertNotNull(savedTreatment.getCreatedAt());
         assertNotNull(savedTreatment.getUpdatedAt());
+    }
+
+    @Test
+    void testSaveTreatmentWithoutLawn() {
+        assertThrows(ConstraintViolationException.class, () -> {
+
+            Treatment testTreatment = Treatment.builder()
+                    .type(TreatmentType.FERTILIZER)
+                    .spreadType(SpreadType.BROADCAST)
+                    .build();
+
+            treatmentRepository.save(testTreatment);
+
+            treatmentRepository.flush();
+        });
+    }
+
+    @Test
+    void testSaveTreatmentWithoutType() {
+        assertThrows(ConstraintViolationException.class, () -> {
+
+            User testUser = new TestUserBuilder().build();
+            Lawn testLawn = new TestLawnBuilder().build(testUser);
+
+            Treatment testTreatment = Treatment.builder()
+                    .lawn(testLawn)
+                    .spreadType(SpreadType.BROADCAST)
+                    .build();
+
+            userRepository.save(testUser);
+            lawnRepository.save(testLawn);
+            treatmentRepository.save(testTreatment);
+
+            treatmentRepository.flush();
+        });
+    }
+
+    @Test
+    void testSaveTreatmentWithoutSpreadType() {
+        assertThrows(ConstraintViolationException.class, () -> {
+
+            User testUser = new TestUserBuilder().build();
+            Lawn testLawn = new TestLawnBuilder().build(testUser);
+
+            Treatment testTreatment = Treatment.builder()
+                    .lawn(testLawn)
+                    .type(TreatmentType.FERTILIZER)
+                    .build();
+
+            userRepository.save(testUser);
+            lawnRepository.save(testLawn);
+            treatmentRepository.save(testTreatment);
+
+            treatmentRepository.flush();
+        });
+    }
+
+    @Test
+    void testSaveTreatmentProductTooLong() {
+        assertThrows(ConstraintViolationException.class, () -> {
+
+            User testUser = new TestUserBuilder().build();
+            Lawn testLawn = new TestLawnBuilder().build(testUser);
+
+            Treatment testTreatment = Treatment.builder()
+                    .lawn(testLawn)
+                    .type(TreatmentType.FERTILIZER)
+                    .spreadType(SpreadType.BROADCAST)
+                    .product("A".repeat(51))
+                    .build();
+
+            userRepository.save(testUser);
+            lawnRepository.save(testLawn);
+            treatmentRepository.save(testTreatment);
+
+            treatmentRepository.flush();
+        });
+    }
+
+    @Test
+    void testSaveTreatmentProductTooShort() {
+        assertThrows(ConstraintViolationException.class, () -> {
+
+            User testUser = new TestUserBuilder().build();
+            Lawn testLawn = new TestLawnBuilder().build(testUser);
+
+            Treatment testTreatment = Treatment.builder()
+                    .lawn(testLawn)
+                    .type(TreatmentType.FERTILIZER)
+                    .spreadType(SpreadType.BROADCAST)
+                    .product("A")
+                    .build();
+
+            userRepository.save(testUser);
+            lawnRepository.save(testLawn);
+            treatmentRepository.save(testTreatment);
+
+            treatmentRepository.flush();
+        });
+    }
+
+    @Test
+    void testSaveTreatmentCoverageNegative() {
+        assertThrows(ConstraintViolationException.class, () -> {
+
+            User testUser = new TestUserBuilder().build();
+            Lawn testLawn = new TestLawnBuilder().build(testUser);
+
+            Treatment testTreatment = Treatment.builder()
+                    .lawn(testLawn)
+                    .type(TreatmentType.FERTILIZER)
+                    .spreadType(SpreadType.BROADCAST)
+                    .coverage(-1)
+                    .build();
+
+            userRepository.save(testUser);
+            lawnRepository.save(testLawn);
+            treatmentRepository.save(testTreatment);
+
+            treatmentRepository.flush();
+        });
+    }
+
+    @Test
+    void testSaveTreatmentCoverageGreaterThanOne() {
+        assertThrows(ConstraintViolationException.class, () -> {
+
+            User testUser = new TestUserBuilder().build();
+            Lawn testLawn = new TestLawnBuilder().build(testUser);
+
+            Treatment testTreatment = Treatment.builder()
+                    .lawn(testLawn)
+                    .type(TreatmentType.FERTILIZER)
+                    .spreadType(SpreadType.BROADCAST)
+                    .coverage(1.1)
+                    .build();
+
+            userRepository.save(testUser);
+            lawnRepository.save(testLawn);
+            treatmentRepository.save(testTreatment);
+
+            treatmentRepository.flush();
+        });
     }
 
 }
