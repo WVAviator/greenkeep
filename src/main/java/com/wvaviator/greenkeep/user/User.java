@@ -1,5 +1,6 @@
 package com.wvaviator.greenkeep.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wvaviator.greenkeep.equipment.Equipment;
 import com.wvaviator.greenkeep.lawn.Lawn;
 import jakarta.persistence.*;
@@ -44,10 +45,12 @@ public class User {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Lawn> lawns = new ArrayList<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Equipment> equipment = new ArrayList<>();
 
     @CreationTimestamp
