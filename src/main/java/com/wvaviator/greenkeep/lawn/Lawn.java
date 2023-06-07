@@ -1,9 +1,13 @@
 package com.wvaviator.greenkeep.lawn;
 
-import com.wvaviator.greenkeep.treatment.Treatment;
 import com.wvaviator.greenkeep.maintenance.Maintenance;
+import com.wvaviator.greenkeep.treatment.Treatment;
 import com.wvaviator.greenkeep.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,16 +31,27 @@ public class Lawn {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @NotBlank(message = "Lawn name is required")
+    @Size(min = 2, max = 50, message = "Lawn name must be between 2 and 50 characters")
     private String name;
-    private String city;
-    private String state;
 
+    @NotBlank(message = "City is required")
+    @Size(min = 2, max = 50, message = "City must be between 2 and 50 characters")
+    private String city;
+
+    @NotNull(message = "State is required")
+    @Enumerated(EnumType.STRING)
+    private State state;
+
+    @NotNull(message = "Hardiness zone is required")
     @Enumerated(EnumType.STRING)
     private USDAHardinessZone hardinessZone;
 
+    @NotNull(message = "Grass type is required")
     @Enumerated(EnumType.STRING)
     private GrassType grassType;
 
+    @Positive(message = "Lawn size must be greater than 0")
     private Integer size;
 
     private Boolean hasSprinklerSystem = false;
@@ -47,7 +62,7 @@ public class Lawn {
     @Column(length = 1000, columnDefinition = "text")
     private String problems;
 
-    @NonNull
+    @NotNull(message = "User is required")
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "user_id")

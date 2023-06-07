@@ -3,6 +3,7 @@ package com.wvaviator.greenkeep.maintenance;
 import com.wvaviator.greenkeep.equipment.Equipment;
 import com.wvaviator.greenkeep.lawn.Lawn;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -24,6 +25,7 @@ public class Maintenance {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @NotNull(message = "Maintenance type is required")
     @Enumerated(EnumType.STRING)
     private MaintenanceType type;
 
@@ -33,14 +35,13 @@ public class Maintenance {
     private Boolean completed = false;
     private LocalDateTime completedAt;
 
-    @NonNull
+    @NotNull(message = "Equipment is required")
     @ToString.Exclude
-
     @ManyToOne
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 
-    @NonNull
+    @NotNull(message = "Lawn is required")
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "lawn_id")
