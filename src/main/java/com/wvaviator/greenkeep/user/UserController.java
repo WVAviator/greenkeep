@@ -6,23 +6,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
+    public static final String USER_PATH = "/api/v1/users";
+    public static final String USER_PATH_ID = "/api/v1/users/{id}";
+
     private final UserService userService;
 
-    @GetMapping
+    @GetMapping(USER_PATH)
     public ResponseEntity<List<UserResponseDto>> listUsers() {
         List<UserResponseDto> userResponseDtos = userService.listUsers();
 
         return ResponseEntity.ok(userResponseDtos);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(USER_PATH_ID)
     public ResponseEntity<UserResponseDto> getUser(@PathVariable Long id) {
         UserResponseDto userResponseDto = userService.getUser(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
@@ -30,12 +33,14 @@ public class UserController {
         return ResponseEntity.ok(userResponseDto);
     }
 
-    @PostMapping
+    @PostMapping(USER_PATH)
     public ResponseEntity<UserResponseDto> createUser(@RequestBody @Valid UserCreateDto userCreateDto) {
-        return ResponseEntity.ok(userService.createUser(userCreateDto));
+        UserResponseDto userResponseDto = userService.createUser(userCreateDto);
+        return ResponseEntity.created(URI.create(USER_PATH + "/" + userResponseDto.getId()))
+                .body(userResponseDto);
     }
 
-    @PutMapping
+    @PutMapping(USER_PATH_ID)
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id,
                                                       @RequestBody @Valid UserCreateDto userCreateDto) {
         UserResponseDto userResponseDto = userService.putUser(id, userCreateDto)
@@ -44,7 +49,7 @@ public class UserController {
         return ResponseEntity.ok(userResponseDto);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(USER_PATH_ID)
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id,
                                                       @RequestBody @Valid UserPatchDto userPatchDto) {
         UserResponseDto userResponseDto = userService.patchUser(id, userPatchDto)
@@ -53,7 +58,7 @@ public class UserController {
         return ResponseEntity.ok(userResponseDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(USER_PATH_ID)
     public ResponseEntity<UserResponseDto> deleteUser(@PathVariable Long id) {
         UserResponseDto userResponseDto = userService.deleteUser(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
