@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("dev")
+@Profile({"dev", "test"})
 public class LoadDatabase {
 
     private static final Logger logger = LoggerFactory.getLogger(LoadDatabase.class);

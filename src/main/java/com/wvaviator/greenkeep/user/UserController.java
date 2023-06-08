@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @PutMapping(USER_PATH_ID)
-    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id,
-                                                      @RequestBody @Valid UserCreateDto userCreateDto) {
+    public ResponseEntity<UserResponseDto> putUser(@PathVariable Long id,
+                                                   @RequestBody @Valid UserCreateDto userCreateDto) {
         UserResponseDto userResponseDto = userService.putUser(id, userCreateDto)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
@@ -50,8 +50,8 @@ public class UserController {
     }
 
     @PatchMapping(USER_PATH_ID)
-    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id,
-                                                      @RequestBody @Valid UserPatchDto userPatchDto) {
+    public ResponseEntity<UserResponseDto> patchUser(@PathVariable Long id,
+                                                     @RequestBody @Valid UserPatchDto userPatchDto) {
         UserResponseDto userResponseDto = userService.patchUser(id, userPatchDto)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
