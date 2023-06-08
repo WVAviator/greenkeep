@@ -1,11 +1,18 @@
 package com.wvaviator.greenkeep.user;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface UserService {
     UserResponseDto createUser(UserCreateDto userCreateDto);
 
-    UserResponseDto getUser(Long id);
+    Optional<UserResponseDto> getUser(Long id);
 
-    UserResponseDto updateUser(Long id, UserPatchDto userPatchDto);
+    List<UserResponseDto> listUsers();
 
-    void deleteUser(Long id);
+    Optional<UserResponseDto> putUser(Long id, UserCreateDto userCreateDto);
+
+    Optional<UserResponseDto> patchUser(Long id, UserPatchDto userPatchDto);
+
+    Optional<UserResponseDto> deleteUser(Long id);
 }

@@ -1,82 +1,63 @@
 package com.wvaviator.greenkeep.user;
 
+import com.wvaviator.greenkeep.exceptions.NotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<Iterable<User>> getUsers() {
-        Iterable<User> users = userRepository.findAll();
+    public ResponseEntity<List<UserResponseDto>> listUsers() {
+        List<UserResponseDto> userResponseDtos = userService.listUsers();
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(userResponseDtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<UserResponseDto> getUser(@PathVariable Long id) {
+        UserResponseDto userResponseDto = userService.getUser(id)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(userResponseDto);
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody @Valid UserCreateDto userCreateDto) {
-        User user = User.builder()
-                .firstName(userCreateDto.getFirstName())
-                .lastName(userCreateDto.getLastName())
-                .email(userCreateDto.getEmail())
-                .build();
+    public ResponseEntity<UserResponseDto> createUser(@RequestBody @Valid UserCreateDto userCreateDto) {
+        return ResponseEntity.ok(userService.createUser(userCreateDto));
+    }
 
-        User savedUser = userRepository.save(user);
+    @PutMapping
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id,
+                                                      @RequestBody @Valid UserCreateDto userCreateDto) {
+        UserResponseDto userResponseDto = userService.putUser(id, userCreateDto)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        return ResponseEntity.ok(savedUser);
+        return ResponseEntity.ok(userResponseDto);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid UserPatchDto userPatchDto) {
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id,
+                                                      @RequestBody @Valid UserPatchDto userPatchDto) {
+        UserResponseDto userResponseDto = userService.patchUser(id, userPatchDto)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        if (user.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        User updatedUser = user.get();
-
-        if (userPatchDto.getFirstName() != null) {
-            updatedUser.setFirstName(userPatchDto.getFirstName());
-        }
-
-        if (userPatchDto.getLastName() != null) {
-            updatedUser.setLastName(userPatchDto.getLastName());
-        }
-
-        if (userPatchDto.getEmail() != null) {
-            updatedUser.setEmail(userPatchDto.getEmail());
-        }
-
-        User savedUser = userRepository.save(updatedUser);
-
-        return ResponseEntity.ok(savedUser);
-
+        return ResponseEntity.ok(userResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUser(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<UserResponseDto> deleteUser(@PathVariable Long id) {
+        UserResponseDto userResponseDto = userService.deleteUser(id)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        if (user.isPresent()) {
-            userRepository.delete(user.get());
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(userResponseDto);
     }
 }
