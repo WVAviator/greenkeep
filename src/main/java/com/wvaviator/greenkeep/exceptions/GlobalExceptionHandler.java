@@ -16,4 +16,10 @@ public class GlobalExceptionHandler {
         logger.debug("Handling NotFoundException: " + ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(EmailExistsException.class)
+    public ResponseEntity<String> handleEmailExistsException(EmailExistsException ex) {
+        logger.debug("Handling EmailExistsException: " + ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
 }

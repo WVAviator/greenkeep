@@ -1,5 +1,6 @@
 package com.wvaviator.greenkeep.user;
 
+import com.wvaviator.greenkeep.exceptions.EmailExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto createUser(UserCreateDto userCreateDto) {
+        if (userRepository.findByEmail(userCreateDto.getEmail()).isPresent()) {
+            throw new EmailExistsException("User with email " + userCreateDto.getEmail() + " already exists");
+        }
+
         User user = userMapper.userCreateDtoToUser(userCreateDto);
         User savedUser = userRepository.save(user);
         return userMapper.userToUserResponseDto(savedUser);
@@ -46,6 +51,9 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             userResponseDtoOptional.set(Optional.of(userMapper.userToUserResponseDto(user)));
         }, () -> {
+            if (userRepository.findByEmail(userCreateDto.getEmail()).isPresent()) {
+                throw new EmailExistsException("User with email " + userCreateDto.getEmail() + " already exists");
+            }
             User user = userMapper.userCreateDtoToUser(userCreateDto);
             User savedUser = userRepository.save(user);
             userResponseDtoOptional.set(Optional.of(userMapper.userToUserResponseDto(savedUser)));
@@ -82,8 +90,8 @@ public class UserServiceImpl implements UserService {
         AtomicReference<Optional<UserResponseDto>> userResponseDtoOptional =
                 new AtomicReference<>(Optional.empty());
         userRepository.findById(id).ifPresent((User user) -> {
-            userRepository.delete(user);
             userResponseDtoOptional.set(Optional.of(userMapper.userToUserResponseDto(user)));
+            userRepository.delete(user);
         });
 
         return userResponseDtoOptional.get();
