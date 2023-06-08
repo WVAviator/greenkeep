@@ -3,9 +3,7 @@ package com.wvaviator.greenkeep;
 import com.wvaviator.greenkeep.equipment.Equipment;
 import com.wvaviator.greenkeep.equipment.EquipmentRepository;
 import com.wvaviator.greenkeep.equipment.EquipmentType;
-import com.wvaviator.greenkeep.lawn.Lawn;
-import com.wvaviator.greenkeep.lawn.LawnRepository;
-import com.wvaviator.greenkeep.lawn.State;
+import com.wvaviator.greenkeep.lawn.*;
 import com.wvaviator.greenkeep.maintenance.MaintenanceRepository;
 import com.wvaviator.greenkeep.treatment.TreatmentRepository;
 import com.wvaviator.greenkeep.user.User;
@@ -18,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("dev")
+@Profile({"dev", "test"})
 public class LoadDatabase {
 
     private static final Logger logger = LoggerFactory.getLogger(LoadDatabase.class);
@@ -47,13 +45,34 @@ public class LoadDatabase {
 
             logger.info("Initial equipment created.");
 
-            Lawn lawn1 = Lawn.builder().id(1L).city("Hernando").state(State.MS).name("Front Yard")
-                    .description("The front yard of my house.").problems("There is poa annua and nutsedge.").size(2000)
-                    .hasSprinklerSystem(false).user(user1).build();
-            Lawn lawn2 = Lawn.builder().id(2L).city("Hernando").state(State.MS).name("Back Yard")
-                    .description("The back yard of my house.").problems("There is crabgrass and patches of dirt.")
+            Lawn lawn1 = Lawn.builder()
+                    .id(1L)
+                    .city("Hernando")
+                    .state(State.MS)
+                    .hardinessZone(USDAHardinessZone.ZONE_7B)
+                    .grassType(GrassType.BERMUDAGRASS)
+                    .name("Front Yard")
+                    .description("The front yard of my house.")
+                    .problems("There is poa annua and nutsedge.")
                     .size(2000)
-                    .hasSprinklerSystem(false).user(user1).build();
+                    .hasSprinklerSystem(false)
+                    .user(user1)
+                    .build();
+
+            Lawn lawn2 = Lawn.builder()
+                    .id(2L)
+                    .city("Hernando")
+                    .state(State.MS)
+                    .hardinessZone(USDAHardinessZone.ZONE_7B)
+                    .grassType(GrassType.BERMUDAGRASS)
+                    .name("Back Yard")
+                    .description("The back yard of my house.")
+                    .problems("There is crabgrass and patches of dirt.")
+                    .size(2000)
+                    .hasSprinklerSystem(false)
+                    .user(user1)
+                    .build();
+
             lawnRepository.save(lawn1);
             lawnRepository.save(lawn2);
 
