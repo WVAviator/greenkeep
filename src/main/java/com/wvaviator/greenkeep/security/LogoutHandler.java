@@ -3,6 +3,7 @@ package com.wvaviator.greenkeep.security;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 public class LogoutHandler extends SecurityContextLogoutHandler {
 
@@ -37,7 +39,16 @@ public class LogoutHandler extends SecurityContextLogoutHandler {
         try {
             httpServletResponse.sendRedirect(logoutUrl);
         } catch (IOException ioException) {
-            // TODO: handle logout error
+            log.error("Error redirecting to logout URL", ioException);
+
+            httpServletResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+            try {
+                httpServletResponse.getWriter().write("Error redirecting to logout URL");
+            } catch (IOException e) {
+                log.error("Error writing to response", e);
+            }
+
         }
     }
 
