@@ -6,6 +6,7 @@ import com.wvaviator.greenkeep.equipment.EquipmentType;
 import com.wvaviator.greenkeep.lawn.*;
 import com.wvaviator.greenkeep.maintenance.MaintenanceRepository;
 import com.wvaviator.greenkeep.treatment.TreatmentRepository;
+import com.wvaviator.greenkeep.user.Role;
 import com.wvaviator.greenkeep.user.User;
 import com.wvaviator.greenkeep.user.UserRepository;
 import org.slf4j.Logger;
@@ -28,7 +29,15 @@ public class LoadDatabase {
         return args -> {
             logger.info("Initializing database with default users, lawns, and equipment.");
 
-            User user1 = User.builder().id(1L).firstName("John").lastName("Doe").email("john@doe.com").build();
+            User user1 = User
+                    .builder()
+                    .id(1L)
+                    .firstName("John")
+                    .lastName("Doe")
+                    .email("john@doe.com")
+                    .role(Role.USER)
+                    .build();
+
             userRepository.save(user1);
 
             logger.info("Initial user created.");

@@ -42,6 +42,9 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
+
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Lawn> lawns = new ArrayList<>();
