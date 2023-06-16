@@ -1,6 +1,7 @@
 package com.wvaviator.greenkeep.security;
 
 import com.wvaviator.greenkeep.user.CustomOidcUser;
+import com.wvaviator.greenkeep.user.Role;
 import com.wvaviator.greenkeep.user.User;
 import com.wvaviator.greenkeep.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,13 @@ public class CustomOidcUserService extends OidcUserService {
                     .email(email)
                     .firstName(firstName)
                     .lastName(lastName)
+                    .role(Role.USER)
                     .build();
 
-            return userRepository.save(newUser);
+            User savedUser = userRepository.save(newUser);
+            log.info("Created new user with id {} and role {}", savedUser.getId(), savedUser.getRole());
+
+            return savedUser;
         }));
     }
 }

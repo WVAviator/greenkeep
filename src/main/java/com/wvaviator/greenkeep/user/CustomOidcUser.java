@@ -2,11 +2,13 @@ package com.wvaviator.greenkeep.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class CustomOidcUser implements OidcUser {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return oidcUser.getAuthorities();
+        return List.of(new SimpleGrantedAuthority(getUser().getRole().name()));
     }
 
     @Override

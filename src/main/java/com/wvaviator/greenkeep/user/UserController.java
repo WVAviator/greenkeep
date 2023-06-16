@@ -5,6 +5,7 @@ import com.wvaviator.greenkeep.security.AuthenticatedUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -28,6 +29,7 @@ public class UserController {
     }
 
     @GetMapping(USER_PATH)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<UserResponseDto>> listUsers() {
         List<UserResponseDto> userResponseDtos = userService.listUsers();
 
@@ -35,6 +37,7 @@ public class UserController {
     }
 
     @GetMapping(USER_PATH_ID)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable Long id) {
         UserResponseDto userResponseDto = userService.getUser(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
@@ -43,6 +46,7 @@ public class UserController {
     }
 
     @PostMapping(USER_PATH)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserResponseDto> createUser(@RequestBody @Valid UserCreateDto userCreateDto) {
         UserResponseDto userResponseDto = userService.createUser(userCreateDto);
         return ResponseEntity.created(URI.create(USER_PATH + "/" + userResponseDto.getId()))
@@ -50,6 +54,7 @@ public class UserController {
     }
 
     @PutMapping(USER_PATH_ID)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserResponseDto> putUser(@PathVariable Long id,
                                                    @RequestBody @Valid UserCreateDto userCreateDto) {
         UserResponseDto userResponseDto = userService.putUser(id, userCreateDto)
@@ -59,6 +64,7 @@ public class UserController {
     }
 
     @PatchMapping(USER_PATH_ID)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserResponseDto> patchUser(@PathVariable Long id,
                                                      @RequestBody @Valid UserPatchDto userPatchDto) {
         UserResponseDto userResponseDto = userService.patchUser(id, userPatchDto)
@@ -68,6 +74,7 @@ public class UserController {
     }
 
     @DeleteMapping(USER_PATH_ID)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserResponseDto> deleteUser(@PathVariable Long id) {
         UserResponseDto userResponseDto = userService.deleteUser(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
