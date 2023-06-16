@@ -1,12 +1,13 @@
 package com.wvaviator.greenkeep.security;
 
+import com.wvaviator.greenkeep.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -19,7 +20,7 @@ import java.util.function.Function;
 public class JwtService {
 
     @Value("${jwt.secret}")
-    private static String signingSecret;
+    private String signingSecret;
 
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(signingSecret);
@@ -31,24 +32,24 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(OidcUser oidcUser) {
+        return generateToken(new HashMap<>(), oidcUser);
     }
 
-    public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> claims, OidcUser oidcUser) {
         return Jwts
                 .builder()
                 .setClaims(claims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(oidcUser.getAttribute("email"))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, User user) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(user.getEmail()) && !isTokenExpired(token));
     }
 
 

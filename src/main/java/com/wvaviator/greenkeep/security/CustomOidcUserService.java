@@ -1,5 +1,6 @@
 package com.wvaviator.greenkeep.security;
 
+import com.wvaviator.greenkeep.user.CustomOidcUser;
 import com.wvaviator.greenkeep.user.User;
 import com.wvaviator.greenkeep.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class CustomOidcUserService extends OidcUserService {
 
         String email = oidcUser.getAttribute("email");
 
-        if (userRepository.findByEmail(email).isEmpty()) {
+        return new CustomOidcUser(oidcUser, userRepository.findByEmail(email).orElseGet(() -> {
             log.info("Creating new user with email {}", email);
 
             String firstName = oidcUser.getAttribute("given_name");
@@ -34,9 +35,8 @@ public class CustomOidcUserService extends OidcUserService {
                     .firstName(firstName)
                     .lastName(lastName)
                     .build();
-            userRepository.save(newUser);
-        }
 
-        return oidcUser;
+            return userRepository.save(newUser);
+        }));
     }
 }

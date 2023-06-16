@@ -1,11 +1,11 @@
 package com.wvaviator.greenkeep.security;
 
+import com.wvaviator.greenkeep.user.CustomOidcUser;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,8 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String jwt = jwtService.generateToken(userDetails);
+        CustomOidcUser customOidcUser = (CustomOidcUser) authentication.getPrincipal();
+        String jwt = jwtService.generateToken(customOidcUser);
 
         response.setHeader("Authorization", "Bearer " + jwt);
     }
