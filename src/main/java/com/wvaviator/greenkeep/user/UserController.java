@@ -1,6 +1,7 @@
 package com.wvaviator.greenkeep.user;
 
 import com.wvaviator.greenkeep.exceptions.NotFoundException;
+import com.wvaviator.greenkeep.security.AuthenticatedUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,14 @@ public class UserController {
     public static final String USER_PATH_ID = "/api/v1/users/{id}";
 
     private final UserService userService;
+
+    @GetMapping(USER_PATH + "/me")
+    public ResponseEntity<UserResponseDto> test(@AuthenticatedUser User user) {
+        UserResponseDto userResponseDto = userService.getUser(user.getId())
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        return ResponseEntity.ok(userResponseDto);
+    }
 
     @GetMapping(USER_PATH)
     public ResponseEntity<List<UserResponseDto>> listUsers() {
