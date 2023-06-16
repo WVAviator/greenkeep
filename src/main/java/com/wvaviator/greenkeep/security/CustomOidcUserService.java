@@ -1,6 +1,5 @@
 package com.wvaviator.greenkeep.security;
 
-import com.wvaviator.greenkeep.user.CustomOidcUser;
 import com.wvaviator.greenkeep.user.Role;
 import com.wvaviator.greenkeep.user.User;
 import com.wvaviator.greenkeep.user.UserRepository;

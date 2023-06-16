@@ -1,5 +1,6 @@
-package com.wvaviator.greenkeep.user;
+package com.wvaviator.greenkeep.security;
 
+import com.wvaviator.greenkeep.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

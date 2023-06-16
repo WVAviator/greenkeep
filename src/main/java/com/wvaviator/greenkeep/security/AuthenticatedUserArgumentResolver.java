@@ -1,6 +1,5 @@
 package com.wvaviator.greenkeep.security;
 
-import com.wvaviator.greenkeep.user.CustomOidcUser;
 import com.wvaviator.greenkeep.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
