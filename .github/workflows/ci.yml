@@ -31,7 +31,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build and test with Maven
-        run: ./mvn clean install
+        run: ./mvnw clean install
 
       - name: Start Application
         run: ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev &
