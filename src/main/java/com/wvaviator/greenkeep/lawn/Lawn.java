@@ -4,10 +4,7 @@ import com.wvaviator.greenkeep.maintenance.Maintenance;
 import com.wvaviator.greenkeep.treatment.Treatment;
 import com.wvaviator.greenkeep.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -35,13 +32,9 @@ public class Lawn {
     @Size(min = 2, max = 50, message = "Lawn name must be between 2 and 50 characters")
     private String name;
 
-    @NotBlank(message = "City is required")
-    @Size(min = 2, max = 50, message = "City must be between 2 and 50 characters")
-    private String city;
-
-    @NotNull(message = "State is required")
-    @Enumerated(EnumType.STRING)
-    private State state;
+    @NotBlank(message = "Zip code is required")
+    @Pattern(regexp = "\\d{5}", message = "Invalid zipcode")
+    private String zipCode;
 
     @NotNull(message = "Hardiness zone is required")
     @Enumerated(EnumType.STRING)

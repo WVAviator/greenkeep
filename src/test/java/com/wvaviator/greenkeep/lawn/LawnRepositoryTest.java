@@ -25,8 +25,7 @@ class LawnRepositoryTest {
         User testUser = new TestUserBuilder().build();
         Lawn testLawn = Lawn.builder()
                 .name("My Lawn")
-                .city("My City")
-                .state(State.MS)
+                .zipCode("12345")
                 .size(1000)
                 .user(testUser)
                 .grassType(GrassType.BERMUDAGRASS)
@@ -51,8 +50,7 @@ class LawnRepositoryTest {
             User testUser = new TestUserBuilder().build();
             Lawn testLawn = Lawn.builder()
                     .name("A".repeat(51))
-                    .city("My City")
-                    .state(State.MS)
+                    .zipCode("12345")
                     .size(1000)
                     .user(testUser)
                     .grassType(GrassType.BERMUDAGRASS)
@@ -73,8 +71,7 @@ class LawnRepositoryTest {
             User testUser = new TestUserBuilder().build();
             Lawn testLawn = Lawn.builder()
                     .name("")
-                    .city("My City")
-                    .state(State.MS)
+                    .zipCode("12345")
                     .size(1000)
                     .user(testUser)
                     .grassType(GrassType.BERMUDAGRASS)
@@ -94,8 +91,7 @@ class LawnRepositoryTest {
 
             User testUser = new TestUserBuilder().build();
             Lawn testLawn = Lawn.builder()
-                    .city("My City")
-                    .state(State.MS)
+                    .zipCode("12345")
                     .size(1000)
                     .user(testUser)
                     .grassType(GrassType.BERMUDAGRASS)
@@ -110,14 +106,13 @@ class LawnRepositoryTest {
     }
 
     @Test
-    void testSaveLawnCityTooLong() {
+    void testSaveLawnInvalidZipCode() {
         assertThrows(ConstraintViolationException.class, () -> {
 
             User testUser = new TestUserBuilder().build();
             Lawn testLawn = Lawn.builder()
                     .name("My Lawn")
-                    .city("A".repeat(51))
-                    .state(State.MS)
+                    .zipCode("1234")
                     .size(1000)
                     .user(testUser)
                     .grassType(GrassType.BERMUDAGRASS)
@@ -132,56 +127,12 @@ class LawnRepositoryTest {
     }
 
     @Test
-    void testSaveLawnCityTooShort() {
+    void testSaveZipCodeMissing() {
         assertThrows(ConstraintViolationException.class, () -> {
 
             User testUser = new TestUserBuilder().build();
             Lawn testLawn = Lawn.builder()
                     .name("My Lawn")
-                    .city("")
-                    .state(State.MS)
-                    .size(1000)
-                    .user(testUser)
-                    .grassType(GrassType.BERMUDAGRASS)
-                    .hardinessZone(USDAHardinessZone.ZONE_7B)
-                    .build();
-
-            userRepository.save(testUser);
-            Lawn savedLawn = lawnRepository.save(testLawn);
-
-            lawnRepository.flush();
-        });
-    }
-
-    @Test
-    void testSaveLawnCityMissing() {
-        assertThrows(ConstraintViolationException.class, () -> {
-
-            User testUser = new TestUserBuilder().build();
-            Lawn testLawn = Lawn.builder()
-                    .name("My Lawn")
-                    .state(State.MS)
-                    .size(1000)
-                    .user(testUser)
-                    .grassType(GrassType.BERMUDAGRASS)
-                    .hardinessZone(USDAHardinessZone.ZONE_7B)
-                    .build();
-
-            userRepository.save(testUser);
-            Lawn savedLawn = lawnRepository.save(testLawn);
-
-            lawnRepository.flush();
-        });
-    }
-
-    @Test
-    void testSaveLawnStateMissing() {
-        assertThrows(ConstraintViolationException.class, () -> {
-
-            User testUser = new TestUserBuilder().build();
-            Lawn testLawn = Lawn.builder()
-                    .name("My Lawn")
-                    .city("My City")
                     .size(1000)
                     .user(testUser)
                     .grassType(GrassType.BERMUDAGRASS)
@@ -202,8 +153,7 @@ class LawnRepositoryTest {
             User testUser = new TestUserBuilder().build();
             Lawn testLawn = Lawn.builder()
                     .name("My Lawn")
-                    .city("My City")
-                    .state(State.MS)
+                    .zipCode("12345")
                     .size(0)
                     .user(testUser)
                     .grassType(GrassType.BERMUDAGRASS)
@@ -224,8 +174,7 @@ class LawnRepositoryTest {
             User testUser = new TestUserBuilder().build();
             Lawn testLawn = Lawn.builder()
                     .name("My Lawn")
-                    .city("My City")
-                    .state(State.MS)
+                    .zipCode("12345")
                     .size(1000)
                     .user(testUser)
                     .hardinessZone(USDAHardinessZone.ZONE_7B)
@@ -245,8 +194,7 @@ class LawnRepositoryTest {
             User testUser = new TestUserBuilder().build();
             Lawn testLawn = Lawn.builder()
                     .name("My Lawn")
-                    .city("My City")
-                    .state(State.MS)
+                    .zipCode("12345")
                     .size(1000)
                     .user(testUser)
                     .grassType(GrassType.BERMUDAGRASS)
@@ -265,8 +213,7 @@ class LawnRepositoryTest {
 
             Lawn testLawn = Lawn.builder()
                     .name("My Lawn")
-                    .city("My City")
-                    .state(State.MS)
+                    .zipCode("12345")
                     .size(1000)
                     .grassType(GrassType.BERMUDAGRASS)
                     .hardinessZone(USDAHardinessZone.ZONE_7B)

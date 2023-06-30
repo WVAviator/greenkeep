@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 public class LawnResponseDto {
     private Long id;
     private String name;
-    private String city;
-    private State state;
+    private String zipCode;
     private USDAHardinessZone hardinessZone;
     private GrassType grassType;
     private Integer size;

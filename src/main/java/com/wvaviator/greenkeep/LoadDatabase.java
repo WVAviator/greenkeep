@@ -3,7 +3,10 @@ package com.wvaviator.greenkeep;
 import com.wvaviator.greenkeep.equipment.Equipment;
 import com.wvaviator.greenkeep.equipment.EquipmentRepository;
 import com.wvaviator.greenkeep.equipment.EquipmentType;
-import com.wvaviator.greenkeep.lawn.*;
+import com.wvaviator.greenkeep.lawn.GrassType;
+import com.wvaviator.greenkeep.lawn.Lawn;
+import com.wvaviator.greenkeep.lawn.LawnRepository;
+import com.wvaviator.greenkeep.lawn.USDAHardinessZone;
 import com.wvaviator.greenkeep.maintenance.MaintenanceRepository;
 import com.wvaviator.greenkeep.treatment.TreatmentRepository;
 import com.wvaviator.greenkeep.user.Role;
@@ -56,8 +59,7 @@ public class LoadDatabase {
 
             Lawn lawn1 = Lawn.builder()
                     .id(1L)
-                    .city("Hernando")
-                    .state(State.MS)
+                    .zipCode("38632")
                     .hardinessZone(USDAHardinessZone.ZONE_7B)
                     .grassType(GrassType.BERMUDAGRASS)
                     .name("Front Yard")
@@ -70,8 +72,7 @@ public class LoadDatabase {
 
             Lawn lawn2 = Lawn.builder()
                     .id(2L)
-                    .city("Hernando")
-                    .state(State.MS)
+                    .zipCode("38632")
                     .hardinessZone(USDAHardinessZone.ZONE_7B)
                     .grassType(GrassType.BERMUDAGRASS)
                     .name("Back Yard")

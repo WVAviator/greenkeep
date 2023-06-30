@@ -8,8 +8,7 @@ public class TestLawnBuilder {
     public Lawn build() {
         return Lawn.builder()
                 .name("My Lawn")
-                .city("My City")
-                .state(State.MS)
+                .zipCode("12345")
                 .size(1000)
                 .user(new TestUserBuilder().build())
                 .grassType(GrassType.BERMUDAGRASS)
@@ -20,8 +19,7 @@ public class TestLawnBuilder {
     public Lawn build(User user) {
         return Lawn.builder()
                 .name("My Lawn")
-                .city("My City")
-                .state(State.MS)
+                .zipCode("12345")
                 .size(1000)
                 .user(user)
                 .grassType(GrassType.BERMUDAGRASS)
