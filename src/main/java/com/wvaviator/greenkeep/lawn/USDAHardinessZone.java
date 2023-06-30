@@ -27,4 +27,5 @@ public enum USDAHardinessZone {
     ZONE_12B,
     ZONE_13A,
     ZONE_13B,
+    ZONE_UNKNOWN,
 }

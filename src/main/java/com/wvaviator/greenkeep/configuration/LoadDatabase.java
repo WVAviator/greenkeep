@@ -1,4 +1,4 @@
-package com.wvaviator.greenkeep;
+package com.wvaviator.greenkeep.configuration;
 
 import com.wvaviator.greenkeep.equipment.Equipment;
 import com.wvaviator.greenkeep.equipment.EquipmentRepository;

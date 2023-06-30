@@ -1,4 +1,4 @@
-package com.wvaviator.greenkeep;
+package com.wvaviator.greenkeep.configuration;
 
 import com.wvaviator.greenkeep.security.AuthenticatedUserArgumentResolver;
 import lombok.extern.slf4j.Slf4j;
