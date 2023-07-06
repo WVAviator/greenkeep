@@ -16,7 +16,7 @@ public class LawnServiceImpl implements LawnService {
     private final LawnMapper lawnMapper;
     private final RestTemplate restTemplate;
 
-    private final String HARDINESS_QUERY_URL = "https://phzmapi.org/";
+    public static final String HARDINESS_QUERY_URL = "https://phzmapi.org/";
 
     private USDAHardinessZone getHardinessZone(String zipCode) {
         try {
