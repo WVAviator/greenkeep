@@ -144,9 +144,8 @@ public class LawnServiceImpl implements LawnService {
 
         lawnRepository.findById(id).ifPresent(lawn -> {
             if (lawn.getUser().equals(user)) {
-                lawnRepository.delete(lawn);
-
                 lawnResponseDtoOptional.set(Optional.of(lawnMapper.lawnToLawnResponseDto(lawn)));
+                lawnRepository.delete(lawn);
             }
         });
 

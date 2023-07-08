@@ -3,6 +3,7 @@ package com.wvaviator.greenkeep.lawn;
 import com.wvaviator.greenkeep.user.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -124,5 +125,91 @@ public class LawnServiceTest {
 
         verify(lawnRepository, times(1)).findAllByUserId(1L);
         verify(lawnMapper, times(1)).lawnsToLawnResponseDtos(anyList());
+    }
+
+    @Test
+    void testPutLawn() {
+        when(lawnRepository.findById(any(Long.class))).thenReturn(Optional.of(lawn));
+        when(lawnMapper.lawnToLawnResponseDto(any(Lawn.class))).thenReturn(lawnResponseDto);
+        when(lawnRepository.save(any(Lawn.class))).thenReturn(lawn);
+
+        Optional<LawnResponseDto> lawnResponse = lawnService.putLawn(1L, lawnCreateDto, user);
+
+        assertThat(lawnResponse).isPresent();
+        assertThat(lawnResponse.get()).usingRecursiveComparison().isEqualTo(lawnResponseDto);
+
+        verify(lawnRepository, times(1)).findById(1L);
+        verify(lawnMapper, times(1)).lawnToLawnResponseDto(any(Lawn.class));
+        verify(lawnRepository, times(1)).save(any(Lawn.class));
+    }
+
+    @Test
+    void testPutLawnWrongUser() {
+        when(lawnRepository.findById(any(Long.class))).thenReturn(Optional.of(lawn));
+
+        Optional<LawnResponseDto> lawnResponse = lawnService.putLawn(1L, lawnCreateDto, User.builder().id(2L).build());
+
+        assertThat(lawnResponse).isEmpty();
+        verify(lawnRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void testPatchLawn() {
+        LawnPatchDto lawnPatchDto = LawnPatchDto.builder()
+                .name("Back yard")
+                .build();
+
+        when(lawnRepository.findById(any(Long.class))).thenReturn(Optional.of(lawn));
+        when(lawnMapper.lawnToLawnResponseDto(any(Lawn.class))).thenReturn(lawnResponseDto);
+        when(lawnRepository.save(any(Lawn.class))).thenReturn(lawn);
+
+        ArgumentCaptor<Lawn> argumentCaptor = ArgumentCaptor.forClass(Lawn.class);
+
+        Optional<LawnResponseDto> lawnResponse = lawnService.patchLawn(1L, lawnPatchDto, user);
+
+        assertThat(lawnResponse).isPresent();
+        assertThat(lawnResponse.get()).usingRecursiveComparison().isEqualTo(lawnResponseDto);
+
+        verify(lawnRepository, times(1)).findById(1L);
+        verify(lawnMapper, times(1)).lawnToLawnResponseDto(any(Lawn.class));
+        verify(lawnRepository).save(argumentCaptor.capture());
+
+        Lawn updatedLawn = argumentCaptor.getValue();
+        assertThat(updatedLawn.getName()).isEqualTo("Back yard");
+    }
+
+    @Test
+    void testPatchLawnWrongUser() {
+        when(lawnRepository.findById(any(Long.class))).thenReturn(Optional.of(lawn));
+
+        Optional<LawnResponseDto> lawnResponse = lawnService.patchLawn(1L, LawnPatchDto.builder().build(),
+                User.builder().id(2L).build());
+
+        assertThat(lawnResponse).isEmpty();
+        verify(lawnRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void testDeleteLawn() {
+        when(lawnRepository.findById(any(Long.class))).thenReturn(Optional.of(lawn));
+        when(lawnMapper.lawnToLawnResponseDto(any(Lawn.class))).thenReturn(lawnResponseDto);
+
+        Optional<LawnResponseDto> response = lawnService.deleteLawn(1L, user);
+
+        assertThat(response).isPresent();
+        assertThat(response.get()).usingRecursiveComparison().isEqualTo(lawnResponseDto);
+
+        verify(lawnRepository, times(1)).findById(1L);
+        verify(lawnRepository, times(1)).delete(any(Lawn.class));
+    }
+
+    @Test
+    void testDeleteLawnWrongUser() {
+        when(lawnRepository.findById(any(Long.class))).thenReturn(Optional.of(lawn));
+
+        lawnService.deleteLawn(1L, User.builder().id(2L).build());
+
+        verify(lawnRepository, times(1)).findById(1L);
+        verify(lawnRepository, never()).delete(any(Lawn.class));
     }
 }
